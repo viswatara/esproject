@@ -7,3 +7,6 @@ The microcontroller will be programmed to count down from the input value which 
 Input Output (GPIO) pins to control the LCD display. We will be connecting an external component i.e. the buzzer that will be 
 connected using the pin structure of the ports. C Structure definitions in the LPC17xx.h header file will be used to access the 
 registers of the LPC1768 microcontroller. 
+
+
+Link to presentation: https://t.ly/bv7Z
