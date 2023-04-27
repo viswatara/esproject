@@ -5,6 +5,12 @@
 void delayMS(unsigned int milliseconds);
 void initTimer0(void); 
 void scan(void);
+void lcd_init(void);
+void write(int, int);
+void delay_lcd(unsigned int);
+void lcd_comdata(int, int); 
+void clear_ports(void);
+void lcd_puts(unsigned char *); 
 
 unsigned char Msg1[14] = "ENTER SECONDS:";
 unsigned char row, var, flag, key;
@@ -20,13 +26,6 @@ unsigned char ASCII_CODE[16] = {'0','1','2','3',
 '4','5','6','7',
 '8','9','0','0',
 '0','0','0','0'};
-
-void lcd_init(void);
-void write(int, int);
-void delay_lcd(unsigned int);
-void lcd_comdata(int, int); 
-void clear_ports(void);
-void lcd_puts(unsigned char *); 
 
 void main(void) {
 	SystemInit();
@@ -131,19 +130,26 @@ void lcd_init(){
     LPC_PINCON->PINSEL1 &= 0xFC003FFF; //P0.23 to P0.28
     /*Setting the directions as output */
     LPC_GPIO0->FIODIR |= 0x0F<<23 | 1<<27 | 1<<28;
+
     clear_ports();
     delay_lcd(3200);
-    lcd_comdata(0x33, 0); 
+    lcd_comdata(0x33, 0);
+
     delay_lcd(30000); 
     lcd_comdata(0x32, 0);
+
     delay_lcd(30000);
     lcd_comdata(0x28, 0); //function set
+
     delay_lcd(30000);
     lcd_comdata(0x0c, 0);//display on cursor off
+
     delay_lcd(800);
     lcd_comdata(0x06, 0); //entry mode set increment cursor right
+
     delay_lcd(800);
     lcd_comdata(0x01, 0); //display clear
+
     delay_lcd(10000);
     return;
 }
@@ -151,9 +157,11 @@ void lcd_init(){
 void lcd_comdata(int temp1, int type){
 	int temp2 = temp1 & 0xf0; //move data (26-8+1) times : 26 - HN place, 4 - Bits
 	temp2 = temp2 << 19; //data lines from 23 to 26
+
 	write(temp2, type);
 	temp2 = temp1 & 0x0f; //26-4+1
 	temp2 = temp2 << 23; 
+
 	write(temp2, type);
 	delay_lcd(1000);
 	return;
@@ -162,11 +170,14 @@ void lcd_comdata(int temp1, int type){
 void write(int temp2, int type) { //write to command/data reg
 	clear_ports();
 	LPC_GPIO0->FIOPIN = temp2; // Assign the value to the data lines 
+
 	if(type==0)
 		LPC_GPIO0->FIOCLR = 1<<27; // clear bit RS for Command
 	else
 		LPC_GPIO0->FIOSET = 1<<27; // set bit RS for Data
+
 	LPC_GPIO0->FIOSET = 1<<28; // EN=1
+
 	delay_lcd(25);
 	LPC_GPIO0->FIOCLR = 1<<28; // EN =0
     return;
@@ -202,6 +213,7 @@ void lcd_puts(unsigned char *buf1){
 void delayMS(unsigned int milliseconds) {
     LPC_TIM0->TCR = 0x02; //Reset Timer, set bit1 of TCR to 1 
     LPC_TIM0->TCR = 0x01; //Enable timer, set bit0 of TCR to 1
+    
     while(LPC_TIM0->TC < milliseconds); //wait until timer counter reaches the desired delay 
     LPC_TIM0->TCR = 0x00; //Disable timer, set bit0 of TCR to 0
 }
