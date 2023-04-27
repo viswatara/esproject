@@ -29,16 +29,14 @@ void clear_ports(void);
 void lcd_puts(unsigned char *); 
 
 void main(void) {
-
-    SystemInit();
-    SystemCoreClockUpdate();
-
-    initTimer0();
+	SystemInit();
+	SystemCoreClockUpdate();
+	initTimer0();
 
 	LPC_GPIO2->FIODIR |= 0x00003C00; //made output P2.10 to P2.13 (rows) (CNB)
 	LPC_GPIO1->FIODIR &= 0xF87FFFFF; //made input P1.23 to P1.26(cols) (CNB)
-    LPC_GPIO0->FIODIR |= 0x0F<<23 | 1<<27 | 1<<28; // for LCD (CND)
-    LPC_GPIO0->FIODIR |=1<<6; // Buzzer output at P0.6 (CNA)
+	LPC_GPIO0->FIODIR |= 0x0F<<23 | 1<<27 | 1<<28; // for LCD (CND)
+	LPC_GPIO0->FIODIR |=1<<6; // Buzzer output at P0.6 (CNA)
 
 	clear_ports();
 	delay_lcd(3200);
