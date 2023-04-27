@@ -1,4 +1,4 @@
-# esproject
+# Problem Statement
 
 The project will utilize an ARM Cortex-M3 based LPC1768 microcontroller. 
 The program will be written in the C programming language using the Keil µVision IDE. 
