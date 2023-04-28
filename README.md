@@ -9,4 +9,4 @@ connected using the pin structure of the ports. C Structure definitions in the L
 registers of the LPC1768 microcontroller. 
 
 
-Link to presentation: https://t.ly/bv7Z
+Link to presentation: https://rb.gy/9z8qc
