@@ -10,4 +10,4 @@ registers of the LPC1768 microcontroller.
 
 
 Link to presentation: https://rb.gy/9z8qc
-Link to documentation: https://shorturl.at/bvxHR
+Link to documentation: https://rb.gy/3344y
